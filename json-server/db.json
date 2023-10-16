@@ -1,0 +1,42 @@
+{
+  "trains": [
+    {
+      "id": 1,
+      "route-name": "Lipetsk - Moscow",
+      "seats-ammount": 15,
+      "free-ammount": [
+        6
+      ],
+      "departure": "10:00",
+      "duration": 318,
+      "stations": [
+        "Lipetsk",
+        "Grazi",
+        "Michurinsk",
+        "Ryazhsk",
+        "Ryazan",
+        "Moscow"
+      ]
+    },
+    {
+      "id": 2,
+      "route-name": "Gryazi - Moscow",
+      "seats-ammount": 15,
+      "free-ammount": [
+        12
+      ],
+      "departure": "09:30",
+      "duration": 420,
+      "stations": [
+        "Grazi",
+        "Michurinsk",
+        "Bogoyavlinsk",
+        "Ranenburg",
+        "Troekurovo",
+        "Spasskoe",
+        "Uzunovo",
+        "Moscow"
+      ]
+    }
+  ]
+}
