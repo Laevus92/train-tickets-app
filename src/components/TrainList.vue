@@ -13,8 +13,7 @@
       @row-click="showDetailedInfo"
     >
       <template #header-cell-train-direction="props">
-        <q-th :props="props"
-@click="clickOnFilter">
+        <q-th :props="props">
           {{ props.col.label }}
           <q-icon name="search"
 size="1.5em" />
@@ -46,6 +45,7 @@ import { Dialog, useQuasar } from 'quasar'
 import { ref } from 'vue'
 import { tableColumns } from '../model/tableColumns'
 import { useTrainsStore } from '../stores/trainsStore'
+// import { Notify } from 'quasar'
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default {
@@ -60,7 +60,7 @@ export default {
   setup() {
     const columns = tableColumns()
     const popupProxyRef = ref(null)
-    const trainStore = useTrainsStore() 
+    const trainStore = useTrainsStore()
     const $q = useQuasar()
     function showDetailedInfo(event, row) {
       const checkboxes = []
@@ -109,9 +109,10 @@ export default {
             console.error(error)
           }
         } else {
-          console.log(
-            'someone have already bought this tikets, choose another tickets',
-          )
+          $q.notify({
+          "type": "negative",
+          "message": "someone have already bought this tikets, choose another tickets",
+        })
         }
       })
     }

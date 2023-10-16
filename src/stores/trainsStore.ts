@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { defineStore } from 'pinia'
+import { Notify } from 'quasar'
 
 export const useTrainsStore = defineStore('trainStore', {
   state: () => ({
@@ -10,10 +11,13 @@ export const useTrainsStore = defineStore('trainStore', {
   actions: {
     async getTrains() {
       try {
-        const response = await axios.get("http://localhost:3000/trains")
+        const response = await axios.get('http://localhost:3000/trains')
         this.trains = response.data
       } catch (error) {
-        console.error(error)
+        Notify.create({
+          type: 'warning',
+          message: 'Something went wrong',
+        })
       } finally {
         this.isLoading = false
       }
@@ -25,9 +29,16 @@ export const useTrainsStore = defineStore('trainStore', {
         await axios.patch(`http://localhost:3000/trains/${id}`, body)
         this.updateCount += 1
         this.isLoading = false
+        Notify.create({
+          type: 'positive',
+          message: 'Tickets was bought successfully',
+        })
       } catch (error) {
-        console.error(error)
+        Notify.create({
+          type: 'warning',
+          message: 'Something went wrong',
+        })
       }
     },
-  }
+  },
 })

@@ -5,9 +5,9 @@
 
 <script>
 import { watch } from 'vue'
+import TrainList from './components/TrainList.vue'
 import { useTrainsStore } from './stores/trainsStore'
 import LoadingSpinner from './components/LoadingSpinner.vue'
-import TrainList from './components/TrainList.vue'
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default {
