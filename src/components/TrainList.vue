@@ -9,6 +9,7 @@
       :columns="columns"
       :row-key="(train) => train.id"
       :filter="filter"
+      :filter-method="filterByFirstColumn"
       separator="vertical"
       @row-click="showDetailedInfo"
     >
@@ -45,7 +46,6 @@ import { Dialog, useQuasar } from 'quasar'
 import { ref } from 'vue'
 import { tableColumns } from '../model/tableColumns'
 import { useTrainsStore } from '../stores/trainsStore'
-// import { Notify } from 'quasar'
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default {
@@ -128,6 +128,10 @@ export default {
     clearFilter() {
       this.filter = ''
       this.$refs.popupProxy.hide()
+    },
+
+    filterByFirstColumn(rows, terms) {
+      return rows.filter(row => row['route-name'].toLowerCase().includes(terms.toLowerCase()))
     },
   },
 }
