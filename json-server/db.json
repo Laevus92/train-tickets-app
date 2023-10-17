@@ -5,8 +5,6 @@
       "route-name": "St.Petersburg - Liski",
       "seats-ammount": 31,
       "free-ammount": [
-        2,
-        6,
         11,
         17,
         18,
@@ -57,7 +55,7 @@
         24
       ],
       "departure": "16:04",
-      "duration": 488
+      "duration": 468
     },
     {
       "id": 5,
