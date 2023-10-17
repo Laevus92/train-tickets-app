@@ -1,6 +1,7 @@
 import axios from 'axios'
 import { defineStore } from 'pinia'
 import { Notify } from 'quasar'
+import RequestBodyType from '../types/RequestBodyType'
 
 export const useTrainsStore = defineStore('trainStore', {
   state: () => ({
@@ -23,7 +24,7 @@ export const useTrainsStore = defineStore('trainStore', {
       }
     },
 
-    async updateTrains(id, body) {
+    async updateTrains(id: number, body: RequestBodyType) {
       try {
         this.isLoading = true
         await axios.patch(`http://localhost:3000/trains/${id}`, body)

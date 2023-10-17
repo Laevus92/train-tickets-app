@@ -1,5 +1,6 @@
 import { getArrivalTime } from '../utilits/getArrivalTime'
 import { getUnderwayTime } from '../utilits/getUnderwayTime'
+import TrainType from '../types/TrainType'
 
 export const tableColumns = () => [
   {
@@ -7,7 +8,7 @@ export const tableColumns = () => [
     required: true,
     align: 'left',
     label: 'Train direction',
-    field: (train) => train?.['route-name'],
+    field: (train: TrainType) => train?.['route-name'],
     filterInputVisible: false,
     headerStyle: 'font-weight: 600; cursor: pointer',
   },
@@ -16,7 +17,7 @@ export const tableColumns = () => [
     required: true,
     align: 'center',
     label: 'Train departure',
-    field: (train) => train?.departure,
+    field: (train: TrainType) => train?.departure,
     sortable: true,
     headerStyle: 'font-weight: 600',
   },
@@ -25,7 +26,7 @@ export const tableColumns = () => [
     required: true,
     align: 'center',
     label: 'Underway time',
-    field: (train) => getUnderwayTime(train?.duration),
+    field: (train: TrainType) => getUnderwayTime(train?.duration),
     sortable: true,
     headerStyle: 'font-weight: 600',
   },
@@ -34,7 +35,7 @@ export const tableColumns = () => [
     required: true,
     align: 'center',
     label: 'Arrival time',
-    field: (train) => getArrivalTime(train?.departure, train?.duration),
+    field: (train: TrainType) => getArrivalTime(train?.departure, train?.duration),
     sortable: true,
     headerStyle: 'font-weight: 600',
   },
@@ -43,7 +44,7 @@ export const tableColumns = () => [
     required: true,
     align: 'center',
     label: 'Total ammount of seats',
-    field: (train) => train?.['seats-ammount'],
+    field: (train: TrainType) => train?.['seats-ammount'],
     sortable: true,
     headerStyle: 'font-weight: 600',
   },
@@ -52,7 +53,7 @@ export const tableColumns = () => [
     required: true,
     align: 'center',
     label: 'Spare seats',
-    field: (train) => train?.['free-ammount'].length,
+    field: (train: TrainType) => train?.['free-ammount'].length,
     sortable: true,
     headerStyle: 'font-weight: 600',
   },

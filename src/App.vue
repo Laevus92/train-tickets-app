@@ -1,6 +1,8 @@
 <template>
-  <train-list v-show="!trainStore.isLoading" :train-list="trainStore.trains" />
-  <loading-spinner v-show="trainStore.isLoading" />
+  <div>
+    <TrainList v-show="!trainStore.isLoading" :trainList="trainStore.trains" />
+    <LoadingSpinner v-show="trainStore.isLoading" />
+  </div>
 </template>
 
 <script>
@@ -9,20 +11,23 @@ import TrainList from './components/TrainList.vue'
 import { useTrainsStore } from './stores/trainsStore'
 import LoadingSpinner from './components/LoadingSpinner.vue'
 
-// eslint-disable-next-line import/no-anonymous-default-export
 export default {
   components: {
     TrainList,
     LoadingSpinner,
   },
+
   setup() {
     const trainStore = useTrainsStore()
 
     trainStore.getTrains()
 
-    watch(() => trainStore.updateCount, () => {
-      trainStore.getTrains()
-    })
+    watch(
+      () => trainStore.updateCount,
+      () => {
+        trainStore.getTrains()
+      },
+    )
 
     return { trainStore }
   },

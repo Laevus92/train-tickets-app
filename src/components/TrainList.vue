@@ -7,31 +7,26 @@
       title="Train tickets"
       :rows="trainList"
       :columns="columns"
-      :row-key="(train) => train.id"
+      :rowKey="(train) => train.id"
       :filter="filter"
-      :filter-method="filterByFirstColumn"
+      :filterMethod="filterByFirstColumn"
       separator="vertical"
-      @row-click="showDetailedInfo"
+      @rowClick="showDetailedInfo"
     >
       <template #header-cell-train-direction="props">
         <q-th :props="props">
           {{ props.col.label }}
-          <q-icon name="search"
-size="1.5em" />
+          <q-icon name="search" size="1.5em" />
           <q-popup-proxy ref="popupProxy">
             <div class="dialog-window">
               <q-input
                 v-model="filter"
                 label="Search station"
-                stack-label
+                stackLabel
                 :dense="true"
                 class="filter-field"
               />
-              <button class="clear-button"
-@click="clearFilter"
->
-Clear
-</button>
+              <button class="clear-button" @click="clearFilter">Clear</button>
             </div>
           </q-popup-proxy>
         </q-th>
@@ -42,14 +37,14 @@ Clear
 
 <script>
 import axios from 'axios'
-import { Dialog, useQuasar } from 'quasar'
+import { useQuasar } from 'quasar'
 import { ref } from 'vue'
 import { tableColumns } from '../model/tableColumns'
 import { useTrainsStore } from '../stores/trainsStore'
 
-// eslint-disable-next-line import/no-anonymous-default-export
 export default {
   name: 'TrainList',
+
   props: {
     trainList: {
       required: true,
@@ -57,13 +52,17 @@ export default {
       type: Array,
     },
   },
+
   setup() {
     const columns = tableColumns()
-    const popupProxyRef = ref(null)
+
     const trainStore = useTrainsStore()
+
     const $q = useQuasar()
+
     function showDetailedInfo(event, row) {
       const checkboxes = []
+
       for (let i = 0; i < row?.['seats-ammount']; i += 1) {
         checkboxes.push({
           label: `Seat #${i + 1}`,
@@ -71,12 +70,16 @@ export default {
           disable: !row?.['free-ammount'].includes(i + 1),
         })
       }
+
       $q.dialog({
         title: `${row?.['route-name']}`,
+
         message: `Book your tikets to train ${row?.['route-name']}`,
+
         ok: {
           label: 'Buy now!',
         },
+
         options: {
           type: 'checkbox',
           model: [],
@@ -86,33 +89,32 @@ export default {
       }).onOk(async (data) => {
         let actualTicketsInfo
         try {
-          actualTicketsInfo = await axios.get(
-            `http://localhost:3000/trains/${row?.id}`,
-          )
+          actualTicketsInfo = await axios.get(`http://localhost:3000/trains/${row?.id}`)
           trainStore.getTrains()
         } catch (error) {
-          console.error(error)
+          $q.notify({
+            type: 'warning',
+            message: 'Oops! Something went wrong!',
+          })
         }
-        if (
-          data.every((el) =>
-            actualTicketsInfo.data?.['free-ammount'].includes(el),
-          )
-        ) {
+
+        if (data.every((el) => actualTicketsInfo.data?.['free-ammount'].includes(el))) {
           try {
             const body = {
-              'free-ammount': row['free-ammount'].filter(
-                (el) => !data.includes(el),
-              ),
+              'free-ammount': row['free-ammount'].filter((el) => !data.includes(el)),
             }
             trainStore.updateTrains(row?.id, body)
           } catch (error) {
-            console.error(error)
+            $q.notify({
+              type: 'warning',
+              message: 'Oops! Something went wrong!',
+            })
           }
         } else {
           $q.notify({
-          "type": "negative",
-          "message": "someone have already bought this tikets, choose another tickets",
-        })
+            type: 'negative',
+            message: 'someone have already bought this tikets, choose another tickets',
+          })
         }
       })
     }
@@ -120,10 +122,10 @@ export default {
     return {
       filter: ref(''),
       columns,
-      popupProxyRef,
       showDetailedInfo,
     }
   },
+
   methods: {
     clearFilter() {
       this.filter = ''
@@ -131,7 +133,7 @@ export default {
     },
 
     filterByFirstColumn(rows, terms) {
-      return rows.filter(row => row['route-name'].toLowerCase().includes(terms.toLowerCase()))
+      return rows.filter((row) => row['route-name'].toLowerCase().includes(terms.toLowerCase()))
     },
   },
 }
